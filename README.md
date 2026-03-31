@@ -1,1 +1,1 @@
-# PSI - Purchase Stock Inventory\n\nSupply chain planning web application.
+# PSI - Purchase Stock Inventory
