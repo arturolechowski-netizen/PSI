@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#0a0e17] text-gray-200;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #374151 #111827;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #111827;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+  }
+}
+
+@layer components {
+  .price-up {
+    @apply text-green-400;
+  }
+
+  .price-down {
+    @apply text-red-400;
+  }
+
+  .price-neutral {
+    @apply text-gray-400;
+  }
+
+  .trading-card {
+    @apply bg-[#111827] border border-gray-800 rounded-lg;
+  }
+
+  .trading-input {
+    @apply bg-[#0d1117] border border-gray-700 rounded px-2 py-1.5 text-sm text-gray-200 focus:border-blue-500 focus:outline-none transition-colors;
+  }
+
+  .trading-select {
+    @apply bg-[#0d1117] border border-gray-700 rounded px-2 py-1.5 text-sm text-gray-200 focus:border-blue-500 focus:outline-none appearance-none cursor-pointer;
+  }
+
+  .btn-buy {
+    @apply bg-green-600 hover:bg-green-500 text-white font-semibold px-4 py-2 rounded text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-sell {
+    @apply bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium px-3 py-1.5 rounded text-sm transition-colors;
+  }
+
+  .btn-danger {
+    @apply bg-red-900/50 hover:bg-red-800/50 text-red-400 border border-red-800 font-medium px-3 py-1.5 rounded text-sm transition-colors;
+  }
+
+  .table-header {
+    @apply text-xs text-gray-500 uppercase tracking-wider font-medium;
+  }
+
+  .table-row {
+    @apply border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors;
+  }
+
+  .kpi-card {
+    @apply trading-card p-4;
+  }
+
+  .tab-active {
+    @apply text-blue-400 border-b-2 border-blue-400;
+  }
+
+  .tab-inactive {
+    @apply text-gray-500 hover:text-gray-300 border-b-2 border-transparent;
+  }
+
+  .status-badge {
+    @apply text-xs font-medium px-2 py-0.5 rounded-full;
+  }
+
+  .flash-update {
+    animation: flashUpdate 0.6s ease-out;
+  }
+}
+
+@keyframes flashUpdate {
+  0% {
+    background-color: rgba(41, 121, 255, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}

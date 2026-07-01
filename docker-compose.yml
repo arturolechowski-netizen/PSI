@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: psi-postgres
+    environment:
+      POSTGRES_DB: psi_db
+      POSTGRES_USER: psi_user
+      POSTGRES_PASSWORD: psi_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U psi_user -d psi_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PSI Backend (Supply Chain Planning)
+  psi-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: psi-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://psi_user:psi_password@postgres:5432/psi_db
+      JWT_SECRET: ${JWT_SECRET:-psi-jwt-secret-change-in-production}
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # PSI Frontend (Supply Chain Planning)
+  psi-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: psi-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - psi-backend
+
+  # Trading Platform Backend
+  trading-backend:
+    build:
+      context: ./trading-platform/backend
+      dockerfile: Dockerfile
+    container_name: trading-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DATABASE_URL: postgresql://psi_user:psi_password@postgres:5432/psi_db
+      JWT_SECRET: ${JWT_SECRET:-trading-jwt-secret-change-in-production}
+    ports:
+      - "3002:3002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Trading Platform Frontend
+  trading-frontend:
+    build:
+      context: ./trading-platform/frontend
+      dockerfile: Dockerfile
+    container_name: trading-frontend
+    ports:
+      - "3003:80"
+    depends_on:
+      - trading-backend
+
+volumes:
+  postgres_data:
